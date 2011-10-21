@@ -4,10 +4,14 @@ body {
   background-color: #000;
   color: #4fa;
   text-shadow: 0.105em 0.125em 0.4em #186, 0.11em 0.11em 0.8em #4fa;
+  font-family: 'VT323';
+  /*font-family: 'Special Elite';*/
+  font-size: 20px;
 }
 
 #device {
   border: 2px outset #333;
+  width: 1024px;
   height: 480px;
   position: relative;
 }
@@ -18,12 +22,49 @@ body {
   background-color: #ccc;
   color: #111;
   text-shadow: none;
-  width: 640px;
+  width: 720px;
   height: 420px;
 }
 
 #printer {
   position: absolute;
-  width: 320px;
+  right: 0;
+  width: 280px;
+}
+
+#state {
+  position: absolute;
+  bottom: 0;
+  width: 1016px;
+}
+
+#co2emission {
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  height: 20px;
+  width: 80px;
+  border: 1px solid red;
+  padding: 0px 4px 4px;
+  text-align: right;
+  color: #f44;
+  text-shadow: 0.105em 0.125em 0.4em #844, 0.11em 0.11em 0.8em #f22;
+}
+
+#inventory {
+  list-style: none;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+#inventory li {
+  display: block;
+  float: left;
+  margin: 0;
+  padding: 2px;
+  border: 1px solid orange;
+  color: #fc6;
+  text-shadow: 0.105em 0.125em 0.4em #820, 0.11em 0.11em 0.8em #fa4;
 }
 

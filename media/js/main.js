@@ -1,65 +1,89 @@
-var db, initialize, inventory, itemAction, linkToItem, loadPlace, paintState;
-var __indexOf = Array.prototype.indexOf || function(item) {
-  for (var i = 0, l = this.length; i < l; i++) {
-    if (this[i] === item) return i;
-  }
-  return -1;
-};
+var db, elementToItem, elementToTrip, getItem, initialize, loadPlace, paintState, player, print, travelTo;
 db = null;
-inventory = [];
+player = {
+  co2emission: 0,
+  quest: null,
+  inventory: {},
+  addItem: function(item) {
+    if (!this.inventory[item.id]) {
+      this.inventory[item.id] = item;
+      this.co2emission += item.co2;
+      return true;
+    }
+  }
+};
 initialize = function() {
-  return $.getJSON("/db.json", function(data) {
-    db = data;
-    $('#device a.place').live('click', function() {
-      loadPlace($(this).attr('href'));
-      return false;
-    });
-    return $('#device a.item').live('click', function() {
-      linkToItem($(this));
-      return false;
-    });
+  var state;
+  $.getJSON("/db.json", function(data) {
+    return db = data;
   });
+  state = window.location.hash.substring(1);
+  if (state) {
+    loadPlace(state);
+  } else {
+    loadPlace("/world/map");
+  }
+  return paintState();
 };
 loadPlace = function(path) {
   var $screen;
   $screen = $('#screen');
   return $.get(path, function(content) {
     return $screen.fadeOut(function() {
-      return $screen.html(content).fadeIn();
+      $screen.html(content).fadeIn();
+      return window.location.hash = path;
     });
   });
 };
 paintState = function() {
-  return $('#inventoryTemplate').tmpl({
-    inventory: inventory
-  }).appendTo($('#inventory').empty());
+  return $('#stateTemplate').tmpl({
+    player: player
+  }).appendTo($('#state').empty());
 };
-linkToItem = function($el) {
-  var cls, conditions, item, itemId;
-  itemId = $el.attr('href').slice(1);
-  item = db.items[itemId];
-  conditions = ((function() {
-    var _i, _len, _ref, _results;
-    _ref = $el.attr('class').split();
-    _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      cls = _ref[_i];
-      if (cls !== item) {
-        _results.push(cls);
-      }
-    }
-    return _results;
-  })())[0];
-  return itemAction(item, conditions);
+print = function(line) {
+  return $('#printer').append("<p>" + line + "</p>");
 };
-itemAction = function(item, conditions) {
-  if (__indexOf.call(inventory, item) < 0) {
-    inventory.push(item);
+getItem = function(item) {
+  if (player.addItem(item)) {
+    print("You just acquired the " + item.label);
   }
   return paintState();
 };
+travelTo = function(dest) {
+  if (dest.co2) {
+    player.co2emission += dest.co2;
+  }
+  paintState();
+  return loadPlace(dest.path);
+};
+elementToTrip = function($e) {
+  return {
+    path: $e.attr('href'),
+    co2: $e.data('co2'),
+    price: $e.data('price')
+  };
+};
+elementToItem = function($e) {
+  return {
+    id: $e.attr('href').slice(1),
+    co2: $e.data('co2'),
+    price: $e.data('price'),
+    weight: $e.data('weight'),
+    label: $e.html()
+  };
+};
 $(function() {
-  initialize();
-  loadPlace("/world/map");
-  return paintState();
+  $('#device a.place').live('click', function() {
+    travelTo(elementToTrip($(this)));
+    return false;
+  });
+  $('#device a.item').live('click', function() {
+    getItem(elementToItem($(this)));
+    return false;
+  });
+  $('header > h1').click(function() {
+    window.location.hash = "";
+    return initialize();
+  });
+  return initialize();
 });

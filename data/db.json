@@ -1,13 +1,21 @@
 {
-  "items": {
-    "woodenpanel": {
-      "label": "Wooden Panel"
+  "products": {
+    "ikea_sultan_alsarp_bed": {
+      "label": "IKEA Sultan Alsarp bed",
+      "components": {
+        "particleboard": 10,
+        "cottonfabric": 1
+      }
     },
-    "metalframe": {
-      "label": "Metal Frame"
-    },
-    "plasticcover": {
-      "label": "Plastic Cover"
+    "caponata": {
+      "label": "Caponata",
+      onion: georgia
+      sugar: miami, florida
+      aubergine: california
+      chili: mexico
+      salt: france
+      tomatosauce: napoli, italia
+      bread: plains, illinois, n-america
     }
   }
 }

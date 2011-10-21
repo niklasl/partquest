@@ -2,8 +2,12 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>PartQuest</title>
+    <title>SourceQuest</title>
     <link href="/media/css/main.css" rel="stylesheet" type="text/css" />
+    <link href='http://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css'>
+    <!--
+    <link href='http://fonts.googleapis.com/css?family=Special+Elite' rel='stylesheet' type='text/css'>
+    -->
     <script src="/media/js/jquery-1.6.4.min.js"></script>
     <script src="/media/js/jquery.tmpl.min.js"></script>
     <script src="/media/js/main.js"></script>
@@ -13,21 +17,22 @@
 
     <div id="container">
         <header>
-          <h1>PartQuest</h1>
+          <h1>SourceQuest</h1>
         </header>
         <section id="device">
           <div id="screen"></div>
           <div id="printer"></div>
+          <div id="state"></div>
         </section>
-        <nav id="inventory"></nav>
     </div>
 
-    <script id="inventoryTemplate" type="text/x-jquery-tmpl">
-      <ul>
-        {{each inventory}}
-          <li>${label}</li>
+    <script id="stateTemplate" type="text/x-jquery-tmpl">
+      <ul id="inventory">
+        {{each(key, item) player.inventory}}
+          <li>${item.label}</li>
         {{/each}}
       </ul>
+      <div id="co2emission">${player.co2emission} kg</div>
     </script>
 
   </body>
