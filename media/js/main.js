@@ -1,8 +1,12 @@
 var db, elementToItem, elementToTrip, getItem, initialize, loadPlace, paintState, player, print, travelTo;
 db = null;
 player = {
-  co2emission: 0,
   quest: null,
+  travel: {
+    current: null,
+    prev: null
+  },
+  co2emission: 0,
   inventory: {},
   addItem: function(item) {
     if (!this.inventory[item.id]) {
@@ -13,25 +17,32 @@ player = {
   }
 };
 initialize = function() {
-  var state;
+  var path, state;
   $.getJSON("/db.json", function(data) {
     return db = data;
   });
   state = window.location.hash.substring(1);
-  if (state) {
-    loadPlace(state);
-  } else {
-    loadPlace("/world/map");
-  }
+  path = state ? state : "/world/map";
+  loadPlace({
+    path: path
+  });
   return paintState();
 };
-loadPlace = function(path) {
+loadPlace = function(dest) {
   var $screen;
   $screen = $('#screen');
-  return $.get(path, function(content) {
+  return $.get(dest.path, function(content) {
     return $screen.fadeOut(function() {
+      var prev;
+      window.location.hash = dest.path;
       $screen.html(content).fadeIn();
-      return window.location.hash = path;
+      if ($('.map', $screen).length) {
+        $screen.prepend("<a class='path' href='/world/map'>The World</a>");
+      }
+      prev = player.travel.prev;
+      if (prev && !$('a.path', $screen).length) {
+        return $screen.append("<a class='path' data-co2='" + prev.co2 + "' href='" + prev.path + "'>Back again</a>");
+      }
     });
   });
 };
@@ -50,11 +61,15 @@ getItem = function(item) {
   return paintState();
 };
 travelTo = function(dest) {
-  if (dest.co2) {
-    player.co2emission += dest.co2;
+  var co2;
+  player.travel.prev = player.travel.current;
+  player.travel.current = dest;
+  co2 = 0 + dest.co2;
+  if (!isNaN(co2)) {
+    player.co2emission += co2;
   }
   paintState();
-  return loadPlace(dest.path);
+  return loadPlace(dest);
 };
 elementToTrip = function($e) {
   return {
@@ -73,7 +88,7 @@ elementToItem = function($e) {
   };
 };
 $(function() {
-  $('#device a.place').live('click', function() {
+  $('#device a.path').live('click', function() {
     travelTo(elementToTrip($(this)));
     return false;
   });
@@ -81,7 +96,7 @@ $(function() {
     getItem(elementToItem($(this)));
     return false;
   });
-  $('header > h1').click(function() {
+  $('header > *').click(function() {
     window.location.hash = "";
     return initialize();
   });

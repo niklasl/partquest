@@ -9,13 +9,15 @@
     },
     "caponata": {
       "label": "Caponata",
-      onion: georgia
-      sugar: miami, florida
-      aubergine: california
-      chili: mexico
-      salt: france
-      tomatosauce: napoli, italia
-      bread: plains, illinois, n-america
+      "components": {
+        "onion": 0.2,
+        "sugar": 0.08,
+        "aubergine": 0.4,
+        "bread": 0.5,
+        "chili": 0.01,
+        "salt": 0.004,
+        "tomatosauce": 0.5
+      }
     }
   }
 }

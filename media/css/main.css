@@ -9,6 +9,10 @@ body {
   font-size: 20px;
 }
 
+a:link, a:visited {
+  color: green;
+}
+
 #device {
   border: 2px outset #333;
   width: 1024px;
@@ -19,7 +23,7 @@ body {
 #screen {
   border: 4px inset grey;
   position: absolute;
-  background-color: #ccc;
+  background-color: #cfc;
   color: #111;
   text-shadow: none;
   width: 720px;
@@ -43,7 +47,7 @@ body {
   right: 0;
   bottom: 10px;
   height: 20px;
-  width: 80px;
+  width: 160px;
   border: 1px solid red;
   padding: 0px 4px 4px;
   text-align: right;
