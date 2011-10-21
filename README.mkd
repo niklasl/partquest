@@ -7,8 +7,13 @@ Python (and preferably a virtualenv). Install dependencies:
 
 To compile CoffeeScript, you need NodeJS and NPM. Try e.g.:
 
-    $ brew install nodejs
-    $ brew install npm
+    $ brew install node
+
+Install NPM according to <http://npmjs.org/>.
+
+Then:
+
+    $ npm install coffee-script
 
 ## Development
 
