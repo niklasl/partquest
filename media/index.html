@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>PartQuest</title>
+    <link href="/media/css/main.css" rel="stylesheet" type="text/css" />
+    <script src="/media/js/jquery-1.6.4.min.js"></script>
+    <script src="/media/js/jquery.tmpl.min.js"></script>
+    <script src="/media/js/main.js"></script>
+  </head>
+
+  <body id="game">
+
+    <div id="container">
+        <header>
+          <h1>PartQuest</h1>
+        </header>
+        <section id="device">
+          <div id="screen"></div>
+          <div id="printer"></div>
+        </section>
+        <nav id="inventory"></nav>
+    </div>
+
+    <script id="inventoryTemplate" type="text/x-jquery-tmpl">
+      <ul>
+        {{each inventory}}
+          <li>${label}</li>
+        {{/each}}
+      </ul>
+    </script>
+
+  </body>
+</html>

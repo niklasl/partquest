@@ -1,0 +1,13 @@
+{
+  "items": {
+    "woodenpanel": {
+      "label": "Wooden Panel"
+    },
+    "metalframe": {
+      "label": "Metal Frame"
+    },
+    "plasticcover": {
+      "label": "Plastic Cover"
+    }
+  }
+}

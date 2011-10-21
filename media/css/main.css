@@ -1,0 +1,29 @@
+
+body {
+  height: 100%;
+  background-color: #000;
+  color: #4fa;
+  text-shadow: 0.105em 0.125em 0.4em #186, 0.11em 0.11em 0.8em #4fa;
+}
+
+#device {
+  border: 2px outset #333;
+  height: 480px;
+  position: relative;
+}
+
+#screen {
+  border: 4px inset grey;
+  position: absolute;
+  background-color: #ccc;
+  color: #111;
+  text-shadow: none;
+  width: 640px;
+  height: 420px;
+}
+
+#printer {
+  position: absolute;
+  width: 320px;
+}
+

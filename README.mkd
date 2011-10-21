@@ -1,0 +1,22 @@
+
+## Prerequisites
+
+Python (and preferably a virtualenv). Install dependencies:
+
+    $ pip install flask
+
+To compile CoffeeScript, you need NodeJS and NPM. Try e.g.:
+
+    $ brew install nodejs
+    $ brew install npm
+
+## Development
+
+Launch a server with:
+
+    $ python web.py -d
+
+The main script is written in CoffeeScript. Launch a compiling watcher with:
+
+    $ coffee -cbw media/js/
+
