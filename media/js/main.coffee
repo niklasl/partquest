@@ -26,26 +26,30 @@ start = () ->
 
   state = window.location.hash.substring(1)
   path = if state then state else "/world/intro"
-  loadPlace path: path
+  loadScene path: path
   paintPlayerState()
 
-loadPlace = (dest, millis=300) ->
-  $screen = $('#screen')
+loadScene = (dest, millis=300) ->
+  $text = $('#text')
   $.get dest.path, (content) ->
-    $screen.animate scrollTop: 0, millis
-    $screen.fadeOut millis, ->
+    $text.animate scrollTop: 0, millis
+    $text.fadeOut millis, ->
       window.location.hash = dest.path
-      $screen.html(content).fadeIn millis
+      $text.html(content)
+      $('[typeof=Quest]', $text).each ->
+        setQuest elementToQuest $(@)
+      $('[property=title]', $text).remove().appendTo($('#location').empty())
+      $('[rel=depiction]', $text).remove().appendTo($('#screen').empty())
+      $text.fadeIn millis
       prev = player.travel.prev
-      if prev and not $('a.path', $screen).length
-        $screen.append """
+      if prev and not $('a.path', $text).length
+        $text.append """
           <a class='path' data-co2='#{player.travel.current.co2}'
              href='#{prev.path}'>&larr; Travel back</a>"""
-      $('[typeof=Quest]', $screen).each ->
-        setQuest elementToQuest $(@)
 
 paintPlayerState = ->
-  for box in ['quest', 'wallet']
+  for box in ['quest', 'wallet', 'co2']
+    console.log(player.quest) if box is 'quest'
     $("##{box}Template").tmpl(player: player).appendTo $("##{box}").empty()
 
 message = (line) ->
@@ -70,7 +74,7 @@ checkQuest = () ->
     if player.inventory[key] is undefined
       return
   message "You have solved the quest for the #{quest.label}!"
-  loadPlace path: quest.end, 3000
+  loadScene path: quest.end, 3000
   player.inventory = {}
   #player.quest = null
 
@@ -79,7 +83,7 @@ travelTo = (dest) ->
   player.travel.current = dest
   co2 = 0 + dest.co2
   player.co2emission += co2 unless isNaN(co2)
-  loadPlace dest
+  loadScene dest
   paintPlayerState()
 
 showQuestInfo = () ->
