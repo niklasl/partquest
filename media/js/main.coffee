@@ -36,6 +36,8 @@ loadScene = (dest, millis=300) ->
     $text.fadeOut millis, ->
       window.location.hash = dest.path
       $text.html(content)
+      $('[typeof=Quest]', $text).each ->
+        setQuest elementToQuest $(@)
       $('[property=title]', $text).remove().appendTo($('#location').empty())
       $('[rel=depiction]', $text).remove().appendTo($('#screen').empty())
       $text.fadeIn millis
@@ -44,11 +46,10 @@ loadScene = (dest, millis=300) ->
         $text.append """
           <a class='path' data-co2='#{player.travel.current.co2}'
              href='#{prev.path}'>&larr; Travel back</a>"""
-      $('[typeof=Quest]', $text).each ->
-        setQuest elementToQuest $(@)
 
 paintPlayerState = ->
   for box in ['quest', 'wallet', 'co2']
+    console.log(player.quest) if box is 'quest'
     $("##{box}Template").tmpl(player: player).appendTo $("##{box}").empty()
 
 message = (line) ->

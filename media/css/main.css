@@ -26,11 +26,20 @@ h2 {
 
 #screen {
   border: 2px inset grey;
+  top: 42px;
+  min-width: 500px;
+  min-height: 350px;
+  position: absolute;
+}
+
+#text {
   position: absolute;
   background-color: beige;
+  border-radius: 4px;
   color: #111;
   text-shadow: none;
-  width: 720px;
+  left: 520px;
+  width: 496px;
   height: 472px;
   overflow: auto;
 }
@@ -63,7 +72,7 @@ h2 {
   width: 100%;
 }
 
-#co2emission {
+#co2 {
   position: absolute;
   right: 0;
   bottom: 0;
@@ -94,5 +103,4 @@ h2 {
 }
 
 #footer {
-	
 }

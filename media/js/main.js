@@ -61,16 +61,16 @@ loadScene = function(dest, millis) {
       var prev;
       window.location.hash = dest.path;
       $text.html(content);
+      $('[typeof=Quest]', $text).each(function() {
+        return setQuest(elementToQuest($(this)));
+      });
       $('[property=title]', $text).remove().appendTo($('#location').empty());
       $('[rel=depiction]', $text).remove().appendTo($('#screen').empty());
       $text.fadeIn(millis);
       prev = player.travel.prev;
       if (prev && !$('a.path', $text).length) {
-        $text.append("<a class='path' data-co2='" + player.travel.current.co2 + "'\n   href='" + prev.path + "'>&larr; Travel back</a>");
+        return $text.append("<a class='path' data-co2='" + player.travel.current.co2 + "'\n   href='" + prev.path + "'>&larr; Travel back</a>");
       }
-      return $('[typeof=Quest]', $text).each(function() {
-        return setQuest(elementToQuest($(this)));
-      });
     });
   });
 };
@@ -80,6 +80,9 @@ paintPlayerState = function() {
   _results = [];
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     box = _ref[_i];
+    if (box === 'quest') {
+      console.log(player.quest);
+    }
     _results.push($("#" + box + "Template").tmpl({
       player: player
     }).appendTo($("#" + box).empty()));
