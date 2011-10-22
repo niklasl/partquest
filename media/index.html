@@ -25,18 +25,17 @@
           <img src="/media/pictures/logo.png">
         </header>
         <section id="device" vocab="http://example.org/def/quest#">
-        <div id="columnleft">
-          <div id="screen"></div>
-          <div id="location"></div>
-          <div id="wallet"></div>
-          <div id="quest"></div>
-          <div id="co2"></div>
-          <div id="messages"></div>
-        </div>
-        <div id="text"></div>
+          <div id="columnleft">
+            <div id="screen"></div>
+            <div id="location"></div>
+            <div id="wallet"></div>
+            <div id="quest"></div>
+            <div id="co2"></div>
+            <div id="messages"></div>
+          </div>
+          <div id="text"></div>
         </section>
         <div id="footer">
-
         </div>
     </div>
 
@@ -62,6 +61,23 @@
     <script id="co2Template" type="text/x-jquery-tmpl">
       CO<sub>2</sub>: ${player.co2emission.toFixed(2)} kg
     </script>
+
+    <audio id="pickup" src="media/audio/sourceQuest 005 Pickup or coin.wav" />
+    <audio id="miss" src="media/audio/sourceQuest 003 Hit or hurt.wav" />
+    <audio id="travel" src="media/audio/sourceQuest 007 Powerup.wav" />
+
+    <audio id="introtune">
+      <source src="media/audio/8-bit bounce intro.ogg" type="audio/ogg" />
+      <source src="media/audio/8-bit bounce intro.mp4" type="audio/mp4" />
+    </audio>
+    <audio id="ambience">
+      <source src="media/audio/8-bit bounce loop.ogg" type="audio/ogg" />
+      <source src="media/audio/8-bit bounce loop.mp4" type="audio/mp4" />
+    </audio>
+    <audio id="outrotune">
+      <source src="media/audio/8-bit finale.ogg" type="audio/ogg" />
+      <source src="media/audio/8-bit finale.mp4" type="audio/mp4" />
+    </audio>
 
   </body>
 </html>

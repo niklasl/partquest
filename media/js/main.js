@@ -1,4 +1,4 @@
-var checkQuest, connect, db, elementToItem, elementToQuest, elementToTrip, getItem, loadScene, message, paintPlayerState, player, setQuest, showQuestInfo, start, travelTo;
+var checkQuest, connect, db, elementToItem, elementToQuest, elementToTrip, getItem, loadScene, message, paintPlayerState, playMainTune, player, setQuest, showQuestInfo, start, toggleMainTune, travelTo, tune;
 db = null;
 player = {
   quest: null,
@@ -16,6 +16,7 @@ player = {
     }
   }
 };
+tune = null;
 connect = function() {
   $('header > *').click(function() {
     window.location.hash = "";
@@ -30,9 +31,12 @@ connect = function() {
     getItem(elementToItem($(this)));
     return false;
   });
-  return $('#quest a.info').live('click', function() {
+  $('#quest a.info').live('click', function() {
     showQuestInfo();
     return false;
+  });
+  return $('#co2').click(function() {
+    return toggleMainTune();
   });
 };
 start = function() {
@@ -45,7 +49,8 @@ start = function() {
   loadScene({
     path: path
   });
-  return paintPlayerState();
+  paintPlayerState();
+  return playMainTune('#introtune');
 };
 loadScene = function(dest, millis) {
   var $text;
@@ -95,11 +100,15 @@ message = function(line) {
   }, 30);
 };
 setQuest = function(quest) {
-  return player.quest = quest;
+  player.quest = quest;
+  return playMainTune('#ambience');
 };
 getItem = function(item) {
   if (player.addItem(item)) {
     message("You just acquired the " + item.label);
+    $('#pickup')[0].play();
+  } else {
+    $('#miss')[0].play();
   }
   checkQuest();
   return paintPlayerState();
@@ -118,10 +127,12 @@ checkQuest = function() {
   loadScene({
     path: quest.end
   }, 3000);
+  playMainTune('#outrotune');
   return player.inventory = {};
 };
 travelTo = function(dest) {
   var co2;
+  $('#travel')[0].play();
   player.travel.prev = player.travel.current;
   player.travel.current = dest;
   co2 = 0 + dest.co2;
@@ -166,6 +177,26 @@ elementToItem = function($e) {
     weight: $e.data('weight'),
     label: $e.html()
   };
+};
+playMainTune = function(id) {
+  if (tune) {
+    tune.pause();
+  }
+  tune = $(id)[0];
+  tune.addEventListener('ended', (function() {
+    this.currentTime = 0;
+    return this.play();
+  }), false);
+  return tune.play();
+};
+toggleMainTune = function() {
+  if (tune) {
+    if (tune.paused) {
+      return tune.play();
+    } else {
+      return tune.pause();
+    }
+  }
 };
 $(function() {
   connect();
