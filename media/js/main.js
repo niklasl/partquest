@@ -19,7 +19,8 @@ player = {
 connect = function() {
   $('header > *').click(function() {
     window.location.hash = "";
-    return start();
+    start();
+    return false;
   });
   $('#device a.path').live('click', function() {
     travelTo(elementToTrip($(this)));
@@ -30,7 +31,8 @@ connect = function() {
     return false;
   });
   return $('#quest a.info').live('click', function() {
-    return showQuestInfo();
+    showQuestInfo();
+    return false;
   });
 };
 start = function() {
@@ -45,17 +47,23 @@ start = function() {
   });
   return paintPlayerState();
 };
-loadPlace = function(dest) {
+loadPlace = function(dest, millis) {
   var $screen;
+  if (millis == null) {
+    millis = 300;
+  }
   $screen = $('#screen');
   return $.get(dest.path, function(content) {
-    return $screen.fadeOut(function() {
+    $screen.animate({
+      scrollTop: 0
+    }, millis);
+    return $screen.fadeOut(millis, function() {
       var prev;
       window.location.hash = dest.path;
-      $screen.html(content).fadeIn();
+      $screen.html(content).fadeIn(millis);
       prev = player.travel.prev;
       if (prev && !$('a.path', $screen).length) {
-        $screen.prepend("<a class='path' data-co2='" + player.travel.current.co2 + "' href='" + prev.path + "'>Travel back</a>");
+        $screen.append("<a class='path' data-co2='" + player.travel.current.co2 + "'\n   href='" + prev.path + "'>&larr; Travel back</a>");
       }
       return $('[typeof=Quest]', $screen).each(function() {
         return setQuest(elementToQuest($(this)));
@@ -64,16 +72,21 @@ loadPlace = function(dest) {
   });
 };
 paintPlayerState = function() {
-  return $('#stateTemplate').tmpl({
-    player: player
-  }).appendTo($('#state').empty());
+  var box, _i, _len, _ref, _results;
+  _ref = ['quest', 'wallet'];
+  _results = [];
+  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+    box = _ref[_i];
+    _results.push($("#" + box + "Template").tmpl({
+      player: player
+    }).appendTo($("#" + box).empty()));
+  }
+  return _results;
 };
 message = function(line) {
   var $messages;
   $messages = $('#messages');
   $messages.append("<p>" + line + "</p>");
-  console.log($messages.prop('scrollTop'));
-  console.log($messages.prop('scrollHeight'));
   return $messages.animate({
     scrollTop: $messages.prop("scrollHeight")
   }, 30);
@@ -98,9 +111,11 @@ checkQuest = function() {
       return;
     }
   }
-  message("You have solved the quest and made " + quest.label + "!");
-  player.inventory = {};
-  return player.quest = null;
+  message("You have solved the quest for the " + quest.label + "!");
+  loadPlace({
+    path: quest.end
+  }, 3000);
+  return player.inventory = {};
 };
 travelTo = function(dest) {
   var co2;
@@ -110,8 +125,8 @@ travelTo = function(dest) {
   if (!isNaN(co2)) {
     player.co2emission += co2;
   }
-  paintPlayerState();
-  return loadPlace(dest);
+  loadPlace(dest);
+  return paintPlayerState();
 };
 showQuestInfo = function() {
   var key, quest, _results;
@@ -129,7 +144,8 @@ elementToQuest = function($e) {
   return {
     id: ref,
     label: $('[property=label]', $e).html(),
-    components: db.quests[ref].components
+    components: db.quests[ref].components,
+    end: $('[rel=end]', $e).attr('href')
   };
 };
 elementToTrip = function($e) {

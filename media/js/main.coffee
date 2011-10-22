@@ -15,10 +15,10 @@ player =
       true
 
 connect = () ->
-  $('header > *').click -> window.location.hash = ""; start()
+  $('header > *').click -> window.location.hash = ""; start(); false
   $('#device a.path').live 'click', -> travelTo elementToTrip $(@); false
   $('#device a.item').live 'click', -> getItem elementToItem $(@); false
-  $('#quest a.info').live 'click', -> showQuestInfo()
+  $('#quest a.info').live 'click', -> showQuestInfo(); false
 
 start = () ->
   $.getJSON "/db.json", (data) ->
@@ -29,29 +29,28 @@ start = () ->
   loadPlace path: path
   paintPlayerState()
 
-loadPlace = (dest) ->
+loadPlace = (dest, millis=300) ->
   $screen = $('#screen')
   $.get dest.path, (content) ->
-    $screen.fadeOut ->
+    $screen.animate scrollTop: 0, millis
+    $screen.fadeOut millis, ->
       window.location.hash = dest.path
-      $screen.html(content).fadeIn()
+      $screen.html(content).fadeIn millis
       prev = player.travel.prev
       if prev and not $('a.path', $screen).length
-        $screen.prepend(
-          "<a class='path' data-co2='#{player.travel.current.co2}' href='#{prev.path}'>Travel back</a>")
+        $screen.append """
+          <a class='path' data-co2='#{player.travel.current.co2}'
+             href='#{prev.path}'>&larr; Travel back</a>"""
       $('[typeof=Quest]', $screen).each ->
         setQuest elementToQuest $(@)
 
 paintPlayerState = ->
-  $('#stateTemplate').tmpl(
-    player: player
-  ).appendTo $('#state').empty()
+  for box in ['quest', 'wallet']
+    $("##{box}Template").tmpl(player: player).appendTo $("##{box}").empty()
 
 message = (line) ->
   $messages = $('#messages')
   $messages.append("<p>#{line}</p>")
-  console.log $messages.prop('scrollTop')
-  console.log $messages.prop('scrollHeight')
   $messages.animate scrollTop: $messages.prop("scrollHeight"), 30
 
 
@@ -70,17 +69,18 @@ checkQuest = () ->
   for key, amount of quest.components
     if player.inventory[key] is undefined
       return
-  message "You have solved the quest and made #{quest.label}!"
+  message "You have solved the quest for the #{quest.label}!"
+  loadPlace path: quest.end, 3000
   player.inventory = {}
-  player.quest = null
+  #player.quest = null
 
 travelTo = (dest) ->
   player.travel.prev = player.travel.current
   player.travel.current = dest
   co2 = 0 + dest.co2
   player.co2emission += co2 unless isNaN(co2)
-  paintPlayerState()
   loadPlace dest
+  paintPlayerState()
 
 showQuestInfo = () ->
   quest = player.quest
@@ -94,6 +94,7 @@ elementToQuest = ($e) ->
   id: ref
   label: $('[property=label]', $e).html()
   components: db.quests[ref].components
+  end: $('[rel=end]', $e).attr('href')
 
 elementToTrip = ($e) ->
   path: $e.attr('href')

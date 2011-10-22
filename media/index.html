@@ -26,24 +26,29 @@
         </header>
         <section id="device" vocab="http://example.org/def/quest#">
           <div id="screen"></div>
+          <div id="quest"></div>
           <div id="messages"></div>
-          <div id="state"></div>
+          <div id="wallet"></div>
         </section>
     </div>
 
-    <script id="stateTemplate" type="text/x-jquery-tmpl">
-      <ul id="inventory">
-        {{each(key, item) player.inventory}}
-          <li>${item.label}</li>
-        {{/each}}
-      </ul>
-      <div id="quest">Quest:
-        {{if player.quest}}
-          <a class="info" href="#${id}">
-            <em>${player.quest.label}</em>
-          </a>
-        {{/if}}
-      </div>
+    <script id="questTemplate" type="text/x-jquery-tmpl">
+      Quest:
+      {{if player.quest}}
+        <a class="info" href="#${player.quest.id}">
+          <em>${player.quest.label}</em>
+        </a>
+      {{/if}}
+    </script>
+
+    <script id="walletTemplate" type="text/x-jquery-tmpl">
+      {{if player.inventory}}
+        <ul id="inventory">
+          {{each(key, item) player.inventory}}
+            <li>${item.label}</li>
+          {{/each}}
+        </ul>
+      {{/if}}
       <div id="co2emission">CO<sub>2</sub>: ${player.co2emission} kg</div>
     </script>
 

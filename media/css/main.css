@@ -13,6 +13,10 @@ a:link, a:visited {
   color: green;
 }
 
+h2 {
+  margin: 0;
+}
+
 #device {
   border: 2px outset #333;
   width: 1024px;
@@ -21,33 +25,43 @@ a:link, a:visited {
 }
 
 #screen {
-  border: 4px inset grey;
+  border: 2px inset grey;
   position: absolute;
-  background-color: #cfc;
+  background-color: beige;
   color: #111;
   text-shadow: none;
   width: 720px;
   height: 472px;
+  overflow: auto;
 }
 
 #messages {
   position: absolute;
   right: 0;
+  top: 32px;
   width: 280px;
-  height: 472px;
+  height: 460px;
   overflow: auto;
 }
 
-#state {
+#quest {
+  border: 1px solid blue;
+  position: absolute;
+  right: 0;
+  padding: 0px 4px 4px;
+  width: 172px;
+}
+
+#wallet {
   position: absolute;
   bottom: 0;
-  width: 1016px;
+  width: 100%;
 }
 
 #co2emission {
   position: absolute;
   right: 0;
-  bottom: 10px;
+  bottom: 0;
   height: 20px;
   width: 160px;
   border: 1px solid red;
