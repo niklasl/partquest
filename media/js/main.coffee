@@ -48,7 +48,7 @@ loadScene = (dest, millis=300) ->
         setQuest elementToQuest $(@)
 
 paintPlayerState = ->
-  for box in ['quest', 'wallet']
+  for box in ['quest', 'wallet', 'co2']
     $("##{box}Template").tmpl(player: player).appendTo $("##{box}").empty()
 
 message = (line) ->

@@ -76,7 +76,7 @@ loadScene = function(dest, millis) {
 };
 paintPlayerState = function() {
   var box, _i, _len, _ref, _results;
-  _ref = ['quest', 'wallet'];
+  _ref = ['quest', 'wallet', 'co2'];
   _results = [];
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     box = _ref[_i];
