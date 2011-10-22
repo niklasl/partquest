@@ -80,9 +80,6 @@ paintPlayerState = function() {
   _results = [];
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     box = _ref[_i];
-    if (box === 'quest') {
-      console.log(player.quest);
-    }
     _results.push($("#" + box + "Template").tmpl({
       player: player
     }).appendTo($("#" + box).empty()));

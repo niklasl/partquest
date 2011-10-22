@@ -49,7 +49,6 @@ loadScene = (dest, millis=300) ->
 
 paintPlayerState = ->
   for box in ['quest', 'wallet', 'co2']
-    console.log(player.quest) if box is 'quest'
     $("##{box}Template").tmpl(player: player).appendTo $("##{box}").empty()
 
 message = (line) ->

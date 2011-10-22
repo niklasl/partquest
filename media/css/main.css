@@ -14,11 +14,11 @@ h2 {
   margin: 0;
 }
 header{
-	text-align:right;
+  text-align:right;
 }
 #columnleft{
-	float:left;
-	width:500px;
+  float:left;
+  width:500px;
 }
 
 #screen {
@@ -45,17 +45,17 @@ header{
   margin-top: 10px;
   width: 240px;
   height: 130px;
-  overflow: none;
+  overflow: hidden;
   text-align: right;
 }
 
 #quest {
   padding: 0px 4px 4px;
   width: 172px;
-	float:right;
-	width:150px;
-	height:50px;
-	text-align:right;
+  float:right;
+  width:150px;
+  height:50px;
+  text-align:right;
 }
 
 #quest, #quest a:link {
@@ -69,14 +69,13 @@ header{
 }
 
 #co2 {
-  	float:right;
-	width:150px;
-	height:50px;
-	text-align:right;
-  	padding: 0px 4px 4px;
-  	text-align: right;
-  	color: #f44;
-  	
+  float:right;
+  width:150px;
+  height:50px;
+  text-align:right;
+  padding: 0px 4px 4px;
+  text-align: right;
+  color: #f44;
 }
 
 #inventory {
@@ -101,24 +100,25 @@ header{
 }
 
 #container{
-	position:relative;
-	width:1010px;
-	margin-left:auto;
-	margin-right:auto;
-	
-}
-#location {
-	float:right;
-	width:500px;
-	height:50px;
-	text-align:right;
+  position:relative;
+  width:1010px;
+  margin-left:auto;
+  margin-right:auto;
 }
 
+#location {
+  float:right;
+  width:500px;
+  height:50px;
+  text-align:right;
+}
 
 #wallet{
-	float:left;
-	width:250px;
-	height:250px;
+  float:left;
+  width:250px;
+  height:250px;
 }
+
 #footer {
 }
+
