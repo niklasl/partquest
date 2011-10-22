@@ -19,4 +19,6 @@ if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     if '-d' in sys.argv:
         app.debug = True
-    app.run(port=port) #host='0.0.0.0',
+    host = '127.0.0.1' if app.debug else '0.0.0.0'
+    app.run(host=host, port=port)
+
