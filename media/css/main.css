@@ -1,9 +1,6 @@
-
 body {
-  height: 100%;
   background-color: #000;
   color: #4fa;
-  text-shadow: 0.105em 0.125em 0.4em #186, 0.11em 0.11em 0.8em #4fa;
   font-family: 'VT323';
   /*font-family: 'Special Elite';*/
   font-size: 20px;
@@ -16,76 +13,76 @@ a:link, a:visited {
 h2 {
   margin: 0;
 }
-
-#device {
-  border: 2px outset #333;
-  width: 1024px;
-  height: 520px;
-  position: relative;
+header{
+	text-align:right;
+}
+#columnleft{
+	float:left;
+	width:500px;
 }
 
 #screen {
-  border: 2px inset grey;
-  top: 42px;
   min-width: 500px;
   min-height: 350px;
-  position: absolute;
+  position: relative;
 }
 
 #text {
-  position: absolute;
+  float: right;
   background-color: beige;
-  border-radius: 4px;
   color: #111;
   text-shadow: none;
-  left: 520px;
-  width: 496px;
-  height: 472px;
+  width: 470px;
+  height: 640px;
+  padding-left:15px;
+  padding-right:10px;
   overflow: auto;
 }
 
 #messages {
-  position: absolute;
+  float:right;
   right: 0;
-  top: 32px;
-  width: 280px;
-  height: 460px;
-  overflow: auto;
+  margin-top: 10px;
+  width: 240px;
+  height: 130px;
+  overflow: none;
+  text-align: right;
 }
 
 #quest {
-  border: 1px solid blue;
-  position: absolute;
-  right: 0;
   padding: 0px 4px 4px;
   width: 172px;
+	float:right;
+	width:150px;
+	height:50px;
+	text-align:right;
 }
 
 #quest, #quest a:link {
   color: blue;
-  text-shadow: 0.105em 0.125em 0.4em #55a, 0.11em 0.11em 0.8em #66f;
+
 }
 
 #wallet {
-  position: absolute;
+  float:left;
   bottom: 0;
-  width: 100%;
 }
 
 #co2 {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  height: 20px;
-  width: 160px;
-  border: 1px solid red;
-  padding: 0px 4px 4px;
-  text-align: right;
-  color: #f44;
-  text-shadow: 0.105em 0.125em 0.4em #f77, 0.11em 0.11em 0.8em #faa;
+  	float:right;
+	width:150px;
+	height:50px;
+	text-align:right;
+  	padding: 0px 4px 4px;
+  	text-align: right;
+  	color: #f44;
+  	
 }
 
 #inventory {
+ float:left;
+ width:250px;
+ height:250px;
   list-style: none;
   display: block;
   margin: 0;
@@ -95,12 +92,33 @@ h2 {
 #inventory li {
   display: block;
   float: left;
-  margin: 0;
+  height:70px;
+  width:70px;
+  margin-right:5px;
+  margin-bottom:5px;
   padding: 2px;
-  border: 1px solid orange;
-  color: #fc6;
-  text-shadow: 0.105em 0.125em 0.4em #820, 0.11em 0.11em 0.8em #fa4;
+  background-color: beige;
 }
 
+#container{
+	position:relative;
+	width:1010px;
+	margin-left:auto;
+	margin-right:auto;
+	
+}
+#location {
+	float:right;
+	width:500px;
+	height:50px;
+	text-align:right;
+}
+
+
+#wallet{
+	float:left;
+	width:250px;
+	height:250px;
+}
 #footer {
 }
