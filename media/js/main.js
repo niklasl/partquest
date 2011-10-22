@@ -1,4 +1,4 @@
-var checkQuest, connect, db, elementToItem, elementToQuest, elementToTrip, getItem, loadPlace, message, paintPlayerState, player, setQuest, showQuestInfo, start, travelTo;
+var checkQuest, connect, db, elementToItem, elementToQuest, elementToTrip, getItem, loadScene, message, paintPlayerState, player, setQuest, showQuestInfo, start, travelTo;
 db = null;
 player = {
   quest: null,
@@ -42,30 +42,33 @@ start = function() {
   });
   state = window.location.hash.substring(1);
   path = state ? state : "/world/intro";
-  loadPlace({
+  loadScene({
     path: path
   });
   return paintPlayerState();
 };
-loadPlace = function(dest, millis) {
-  var $screen;
+loadScene = function(dest, millis) {
+  var $text;
   if (millis == null) {
     millis = 300;
   }
-  $screen = $('#screen');
+  $text = $('#text');
   return $.get(dest.path, function(content) {
-    $screen.animate({
+    $text.animate({
       scrollTop: 0
     }, millis);
-    return $screen.fadeOut(millis, function() {
+    return $text.fadeOut(millis, function() {
       var prev;
       window.location.hash = dest.path;
-      $screen.html(content).fadeIn(millis);
+      $text.html(content);
+      $('[property=title]', $text).remove().appendTo($('#location').empty());
+      $('[rel=depiction]', $text).remove().appendTo($('#screen').empty());
+      $text.fadeIn(millis);
       prev = player.travel.prev;
-      if (prev && !$('a.path', $screen).length) {
-        $screen.append("<a class='path' data-co2='" + player.travel.current.co2 + "'\n   href='" + prev.path + "'>&larr; Travel back</a>");
+      if (prev && !$('a.path', $text).length) {
+        $text.append("<a class='path' data-co2='" + player.travel.current.co2 + "'\n   href='" + prev.path + "'>&larr; Travel back</a>");
       }
-      return $('[typeof=Quest]', $screen).each(function() {
+      return $('[typeof=Quest]', $text).each(function() {
         return setQuest(elementToQuest($(this)));
       });
     });
@@ -112,7 +115,7 @@ checkQuest = function() {
     }
   }
   message("You have solved the quest for the " + quest.label + "!");
-  loadPlace({
+  loadScene({
     path: quest.end
   }, 3000);
   return player.inventory = {};
@@ -125,7 +128,7 @@ travelTo = function(dest) {
   if (!isNaN(co2)) {
     player.co2emission += co2;
   }
-  loadPlace(dest);
+  loadScene(dest);
   return paintPlayerState();
 };
 showQuestInfo = function() {
