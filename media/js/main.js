@@ -41,7 +41,7 @@ loadPlace = function(dest) {
       }
       prev = player.travel.prev;
       if (prev && !$('a.path', $screen).length) {
-        return $screen.append("<a class='path' data-co2='" + prev.co2 + "' href='" + prev.path + "'>Back again</a>");
+        return $screen.prepend("<a class='path' data-co2='" + player.travel.current.co2 + "' href='" + prev.path + "'>Travel back</a>");
       }
     });
   });

@@ -16,7 +16,7 @@ a:link, a:visited {
 #device {
   border: 2px outset #333;
   width: 1024px;
-  height: 480px;
+  height: 520px;
   position: relative;
 }
 
@@ -27,7 +27,7 @@ a:link, a:visited {
   color: #111;
   text-shadow: none;
   width: 720px;
-  height: 420px;
+  height: 472px;
 }
 
 #printer {

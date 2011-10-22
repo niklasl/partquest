@@ -34,8 +34,8 @@ loadPlace = (dest) ->
         $screen.prepend("<a class='path' href='/world/map'>The World</a>")
       prev = player.travel.prev
       if prev and not $('a.path', $screen).length
-        $screen.append(
-          "<a class='path' data-co2='#{prev.co2}' href='#{prev.path}'>Back again</a>")
+        $screen.prepend(
+          "<a class='path' data-co2='#{player.travel.current.co2}' href='#{prev.path}'>Travel back</a>")
 
 paintState = ->
   $('#stateTemplate').tmpl(
