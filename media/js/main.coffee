@@ -14,15 +14,20 @@ player =
       @co2emission += item.co2
       true
 
+connect = () ->
+  $('header > *').click -> window.location.hash = ""; start()
+  $('#device a.path').live 'click', -> travelTo elementToTrip $(@); false
+  $('#device a.item').live 'click', -> getItem elementToItem $(@); false
+  $('#quest a.info').live 'click', -> showQuestInfo()
 
-initialize = () ->
+start = () ->
   $.getJSON "/db.json", (data) ->
     db = data
 
   state = window.location.hash.substring(1)
-  path = if state then state else "/world/map"
+  path = if state then state else "/world/intro"
   loadPlace path: path
-  paintState()
+  paintPlayerState()
 
 loadPlace = (dest) ->
   $screen = $('#screen')
@@ -30,36 +35,65 @@ loadPlace = (dest) ->
     $screen.fadeOut ->
       window.location.hash = dest.path
       $screen.html(content).fadeIn()
-      if $('.map', $screen).length
-        $screen.prepend("<a class='path' href='/world/map'>The World</a>")
       prev = player.travel.prev
       if prev and not $('a.path', $screen).length
         $screen.prepend(
           "<a class='path' data-co2='#{player.travel.current.co2}' href='#{prev.path}'>Travel back</a>")
+      $('[typeof=Quest]', $screen).each ->
+        setQuest elementToQuest $(@)
 
-paintState = ->
+paintPlayerState = ->
   $('#stateTemplate').tmpl(
     player: player
   ).appendTo $('#state').empty()
 
-print = (line) ->
-  $('#printer').append("<p>#{line}</p>")
+message = (line) ->
+  $messages = $('#messages')
+  $messages.append("<p>#{line}</p>")
+  console.log $messages.prop('scrollTop')
+  console.log $messages.prop('scrollHeight')
+  $messages.animate scrollTop: $messages.prop("scrollHeight"), 30
 
+
+setQuest = (quest) ->
+  player.quest = quest
 
 getItem = (item) ->
   #item = db.items[itemId]
   if player.addItem item
-    print "You just acquired the #{item.label}"
-  paintState()
+    message "You just acquired the #{item.label}"
+  checkQuest()
+  paintPlayerState()
+
+checkQuest = () ->
+  quest = player.quest
+  for key, amount of quest.components
+    if player.inventory[key] is undefined
+      return
+  message "You have solved the quest and made #{quest.label}!"
+  player.inventory = {}
+  player.quest = null
 
 travelTo = (dest) ->
   player.travel.prev = player.travel.current
   player.travel.current = dest
   co2 = 0 + dest.co2
   player.co2emission += co2 unless isNaN(co2)
-  paintState()
+  paintPlayerState()
   loadPlace dest
 
+showQuestInfo = () ->
+  quest = player.quest
+  message "The quest for #{quest.label} requires:"
+  for key of quest.components
+    message key
+
+
+elementToQuest = ($e) ->
+  ref = $e.attr('about')[1..-1]
+  id: ref
+  label: $('[property=label]', $e).html()
+  components: db.quests[ref].components
 
 elementToTrip = ($e) ->
   path: $e.attr('href')
@@ -75,9 +109,6 @@ elementToItem = ($e) ->
 
 
 $ ->
-  $('#device a.path').live 'click', -> travelTo elementToTrip $(this); false
-  $('#device a.item').live 'click', -> getItem elementToItem $(this); false
-  $('header > *').click -> window.location.hash = ""; initialize()
-
-  initialize()
+  connect()
+  start()
 

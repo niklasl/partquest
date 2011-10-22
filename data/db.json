@@ -1,14 +1,12 @@
 {
-  "products": {
+  "quests": {
     "ikea_sultan_alsarp_bed": {
-      "label": "IKEA Sultan Alsarp bed",
       "components": {
         "particleboard": 10,
         "cottonfabric": 1
       }
     },
     "caponata": {
-      "label": "Caponata",
       "components": {
         "onion": 0.2,
         "sugar": 0.08,

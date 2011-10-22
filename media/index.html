@@ -24,9 +24,9 @@
           -->
           <img src="/media/pictures/logo.png">
         </header>
-        <section id="device">
+        <section id="device" vocab="http://example.org/def/quest#">
           <div id="screen"></div>
-          <div id="printer"></div>
+          <div id="messages"></div>
           <div id="state"></div>
         </section>
     </div>
@@ -37,6 +37,13 @@
           <li>${item.label}</li>
         {{/each}}
       </ul>
+      <div id="quest">Quest:
+        {{if player.quest}}
+          <a class="info" href="#${id}">
+            <em>${player.quest.label}</em>
+          </a>
+        {{/if}}
+      </div>
       <div id="co2emission">CO<sub>2</sub>: ${player.co2emission} kg</div>
     </script>
 

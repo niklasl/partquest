@@ -30,10 +30,12 @@ a:link, a:visited {
   height: 472px;
 }
 
-#printer {
+#messages {
   position: absolute;
   right: 0;
   width: 280px;
+  height: 472px;
+  overflow: auto;
 }
 
 #state {
